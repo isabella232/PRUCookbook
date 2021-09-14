@@ -11,5 +11,5 @@ clean:
 	rm $(hfiles)
 
 %.html:%.adoc
-	asciidoctor $^
+	asciidoctor -v $^
 	
