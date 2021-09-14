@@ -7,6 +7,9 @@ dirs=$(wildcard 0*)
 
 all: $(hfiles)
 
+clean:
+	rm $(hfiles)
+
 %.html:%.adoc
 	asciidoctor $^
 	
