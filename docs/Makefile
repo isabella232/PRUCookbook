@@ -5,11 +5,14 @@
 hfiles=$(subst adoc,html,$(wildcard *.adoc))
 dirs=$(wildcard 0*)
 
-all: $(hfiles)
+all: $(hfiles) book.pdf
 
 clean:
-	rm $(hfiles)
+	rm $(hfiles) book.pdf
 
 %.html:%.adoc
 	asciidoctor -v $^
+	
+%.pdf:%.adoc
+	asciidoctor-pdf -v $^
 	
