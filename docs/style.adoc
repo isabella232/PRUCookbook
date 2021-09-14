@@ -59,7 +59,7 @@ Here is a test.
 [source,c,linenums]
 .copyright.c
 ----
-include::code/copyright.c[copyright.c]
+include::07more/code/copyright.c[copyright.c]
 ----
 
 === Index
