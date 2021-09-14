@@ -16,15 +16,22 @@ Microcontrollers shine when things
 being interfaced require careful timing and can't afford to have an OS preempt an 
 operation.
 
-But what if you have a projcet that needs the flexibility of an OS and the timing 
-of a microcontroller?  This is where the BeagleBoard excells since it has both 
-an ARM procssor running Linux and two **P**rogrammable **R**eal-Time **U**nits (PRUs).
+But what if you have a project that needs the flexibility of an OS and the timing 
+of a microcontroller?  This is where the BeagleBoard excels since it has both 
+an ARM procssor running Linux and two footnote:[Four if you are on the BeagleBone AI];
+**P**rogrammable **R**eal-Time **U**nits (PRUs).
 The PRUs have 32-bit cores which run
 independently of the ARM processor, therefore they can
 be programmed to respond quickly to inputs and produce very precisely timed 
 outputs. 
 
-There are many projects that use the PRU (http://processors.wiki.ti.com/index.php/PRU_Projects) to do things that can't be 
+* TODO Update link
+
+There are many projects that use the PRU 
+(http://processors.wiki.ti.com/index.php/PRU_Projects) 
+<<http://../projects.html, PRU Projects>>
+
+to do things that can't be 
 done with just a SBC or just a microcontroller. Here we present some case studies that give a high-level view of using the PRUs.  In later
 chapters you will see the details of how they work.
 
@@ -41,9 +48,11 @@ Here we present
 The following are resources used in this chapter.
 
 .Resources
+
 * https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual]
-* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table]
-* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table]
+* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[BeagleBone Black P8 Header Table]
+* https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[BeagleBone Black P9 Header Table]
+* https://github.com/beagleboard/beaglebone-ai/wiki/System-Reference-Manual[BeagleBone AI System Reference Manual]
 
 
 === Robotics Control Library
@@ -62,7 +71,7 @@ in <<case_blue>>.
 image:figures/blue.png[Blue balancing]
 
 The http://strawsondesign.com/docs/roboticscape/[Robotics Control Library] is a 
-package that is already installed on the Blue, Black and Pocket, 
+package that is already installed on the Beagle 
 that contains a C library and example/testing programs. It uses the PRU to extend the 
 real-time hardware of the Bone by adding eight addional servo channels and one 
 addition real-time encoder input.
@@ -83,9 +92,11 @@ The Robotics Control Library provides eight additional PWM channels via the PRU 
 The I/O pins on the Beagles have a mutliplexer that lets you select what I/O 
 appears on a given pin.  The Blue has the mux already configured to to run these
 examples.  Follow the instructions in 
-<<../03details/details.adocs#details_configure_servos, Configuring Pins for Controlling Servos>> 
+<<../03details/detailsl#details_configure_servos, Configuring Pins for Controlling Servos>> 
 to configure the pins for the Black and the Pocket.
 ====
+
+// * TODO - verify these commands
 
 Just run:
 [source]
@@ -118,27 +129,33 @@ sample use to center servo channel 1:
 ----
 
 ===== Discussion
-The BeagleBone Blue sends these eight outputs to it's servo channels.  The Black and the Pocket use the pins shown in the 
-<<_register_to_pin_table,Register to pin table>>.
+The BeagleBone Blue sends these eight outputs to it's servo channels.  The others use the pins shown in the 
+<<sase__register_to_pin_table,Register to pin table>>.
 
+[[sase__register_to_pin_table]]
 .PRU register to pin table
 |===
-|PRU pin    |Blue pin|Black pin|Pocket pin
+|PRU pin    |Blue pin|Black pin|Pocket pin|AI pin
 
-|pru1_r30_8 |1       |P8_27    |P2.35     
-|pru1_r30_10|2       |P8_28    |P1.35     
-|pru1_r30_9 |3       |P8_29    |P1.02     
-|pru1_r30_11|4       |P8_30    |P1.04     
-|pru1_r30_6 |5       |P8_39    |     
-|pru1_r30_7 |6       |P8_40    |     
-|pru1_r30_4 |7       |P8_41    |     
-|pru1_r30_5 |8       |P8_42    |
+|pru1_r30_8 |1       |P8_27    |P2.35     |
+|pru1_r30_10|2       |P8_28    |P1.35     |P9_42
+|pru1_r30_9 |3       |P8_29    |P1.02     |P8_14
+|pru1_r30_11|4       |P8_30    |P1.04     |P9_27
+|pru1_r30_6 |5       |P8_39    |          |P8_19
+|pru1_r30_7 |6       |P8_40    |          |P8_13
+|pru1_r30_4 |7       |P8_41    |          |
+|pru1_r30_5 |8       |P8_42    |          |P8_18
 |===
 
 You can find these details in the 
 https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP8HeaderTable.pdf[P8 Header Table], 
-https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table] and then https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual].
+https://github.com/derekmolloy/exploringBB/blob/master/chp06/docs/BeagleboneBlackP9HeaderTable.pdf[P9 Header Table], 
+https://github.com/beagleboard/pocketbeagle/wiki/System-Reference-Manual#673_PRUICSS_Pin_Access[Pocket Beagle System Reference Manual] 
 (Here is a more usable version of the https://docs.google.com/spreadsheets/d/1FRGvYOyW1RiNSEVprvstfJAVeapnASgDXHtxeDOjgqw/edit?usp=sharing[table].)
+and
+https://github.com/beagleboard/beaglebone-ai/wiki/System-Reference-Manual[BeagleBone AI System Reference Manual].
+(Here is a more usable version of the https://docs.google.com/spreadsheets/d/1dFSBVem86vAUD7MLXvqdS-N0Efi8_g_O1iTqzql8DAo/edit#gid=0[table].)
+
 
 Be default the PRUs are already loaded with the code needed to run the
 servos.  All you have to do is run the command.
@@ -150,9 +167,8 @@ servos.  All you have to do is run the command.
 `rc_test_servos` is nice, but I need to control the servos individually.
 
 ===== Solution
-You can modify `rc_test_servos.c`.  You'll find it on the bone at
-`/opt/source/Robotics_Cape_Installer/examples/src/rc_test_servos.c`, or online at
-<https://github.com/StrawsonDesign/Robotics_Cape_Installer/blob/master/examples/src/rc_test_servos.c>.
+You can modify `rc_test_servos.c`.  You'll find it on the bone online at
+<https://github.com/beagleboard/librobotcontrol/blob/master/examples/src/rc_test_servos.c.
 
 Just past line 250 you'll find a `while` loop that has calls to `rc_servo_send_pulse_normalized(ch,servo_pos)` and
 `rc_servo_send_pulse_us(ch, width_us)`.  The first call sets the pulse width relative to the pulse period; the other
@@ -165,8 +181,6 @@ I need more than eight PWM channels, or I need less jitter on the off time.
 ===== Solution
 This is a more advanced problem and required reprograming the PRUs.  See 
 <<../05blocks/blocks.html#blocks_pwm, PWM Generator>> for an example.
-// ToDo, fill in XXXXX
-
 
 ==== Reading Hardware Encoders
 ===== Problem
@@ -190,13 +204,15 @@ pins shown in <<case_pin_mapping>>.
 [[case_pin_mapping]]
 .eQEP to pin mapping
 |===
-|eQEP|Blue pin|Black pin A|Black pin B|Pocket pin A|Pocket pin B
+|eQEP|Blue pin|Black pin A|Black pin B|AI pin A|AI pin B|Pocket pin A|Pocket pin B
 
-|0   |E1      |P9_42B     |P9_27      |P1.31       |P2.24       
-|1   |E2      |P8_35      |P8_33      |P2.10       |
-|2   |E3      |P8_12      |P8_11      |P2.24       |P2.33       
-|2   |        |P8_41      |P8_42      |            |
-|    |E4      |P8_16      |P8_15      |P2.09       |P2.18       
+|0   |E1      |P9_42B     |P9_27      |        |        |P1.31       |P2.24       
+|1   |E2      |P8_35      |P8_33      |P8_35   |P8_33   |P2.10       |
+|2   |E3      |P8_12      |P8_11      |P8_12   |P8_11   |P2.24       |P2.33       
+|2   |        |P8_41      |P8_42      |P9_19   |P9_41   |            |
+|    |E4      |P8_16      |P8_15      |        |        |P2.09       |P2.18       
+|3   |        |           |           |P8_25   |P8_24   |            |
+|3   |        |           |           |P9_42   |P9_27   |            |
 |===
 
 [NOTE]
@@ -257,6 +273,8 @@ The quickest solution is to get the https://github.com/abhishek-kakkar/BeagleLog
 
 If you want to be running a newer image, there are instructions on the site for https://beaglelogic.readthedocs.io/en/latest/install.html[installing BeagleLogic], but I had to do the additional steps in <<case_installing_beaglelogic>>.
 
+// * TODO - Recheck
+
 [[case_installing_beaglelogic]]
 .Installing BeagleLogic
 [source,linenums]
@@ -271,8 +289,6 @@ bone$ *sudo cp beaglelogic-00A0.dtbo /lib/firmware/*
 bone$ *sudo update-initramfs -u -k \`uname -r`*
 bone$ *sudo reboot*
 ----
-
-// TODO <strong> is showing up here
 
 Once the Bone has rebooted, browse to 192.168.7.2:4000 where you'll see
 <<case_beaglelogic_capture>>.  Here you can easily select the sample
@@ -341,11 +357,6 @@ BeagleLogic uses the two PRUs to sample at 100Msps.  Getting a PRU running at 20
 http://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449[The Embedded Kitchen] has a nice article 
 explaining how the PRUs get this type of performance.   
 
-// In section 
-// <<../05blocks/blocks.html#blocks_ws2812, Building Blocks>> we'll give an overview of the technique.
-
-// Todo:  Fill in XXXXX
-
 
 === NeoPixels - 5050 RGB LEDs with Integrated Drivers (LEDScape)
 ==== Problem
@@ -386,6 +397,10 @@ hardware!  Here's how to install it.
 ====
 LEDscape uses UIO, an older method for talking to the PRU.  See
 <<../06io/io.adoc#io_uio,Configuring for UIO Instead of RemoteProc>> to configure your Bone to use UIO.
+====
+[NOTE]
+====
+This has only been tested on the BeagleBone Black.
 ====
 
 First install LEDscape and openpixelcontrol.

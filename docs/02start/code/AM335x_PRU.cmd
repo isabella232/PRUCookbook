@@ -1,1 +1,0 @@
-../../03details/code/AM335x_PRU.cmd
