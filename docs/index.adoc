@@ -1,4 +1,4 @@
-include::header.adoc[]
+//include::header.adoc[]
 
 == PRU Cookbook
 Mark A. Yoder <Mark.A.Yoder@Rose-Hulman.edu>
